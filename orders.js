@@ -20,10 +20,8 @@ app.post("/create", async (req, res) => {
     try {
         let clientInfo = await mongoClient.connect(DB_URL);
         let db = clientInfo.db("orders");
-        let data = await db.collection("list").insertMany(req.body);
-        res.status(200).json(data);
-        res.send(data)
-        console.log("order created successfully")
+         await db.collection("list").insertMany(req.body);
+        res.status(200).json({message:"created"});
         clientInfo.close();
 
     } catch (error) {
@@ -36,8 +34,6 @@ app.get("/orders", async (req, res) => {
         let db = clientInfo.db("orders");
         let data = await db.collection("list").find().toArray();
         res.status(200).json(data);
-        res.send(data)
-        console.log("menu displayed successfully")
         clientInfo.close();
 
     } catch (error) {
